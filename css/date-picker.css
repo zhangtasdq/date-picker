@@ -21,7 +21,7 @@
 
 .date-picker-container th,
 .date-picker-container td {
-    padding: 4px 5px;
+    padding: 2px 3px;
     text-align: center;
     color: #333;
     font-weight: bold;
@@ -29,8 +29,8 @@
 
 .date-picker-container th.change-month  {
     padding: 0;
-    width: 10px;
-    height: 20px;
+    width: 22px;
+    height: 24px;
 }
 
 .date-picker-container th.change-month img {
@@ -57,14 +57,6 @@
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     border-radius: 4px;
-}
-
-.date-picker-container td.old {
-    color: #999;
-}
-
-.date-picker-container td.new {
-    color: #999;
 }
 
 .date-picker-container td.active {
