@@ -9,7 +9,7 @@ date-picker
 例子
 ---
 1. 查看项目目录下的 `sample` 文件夹
-2. [jsfiddle示例](https://jsfiddle.net/cqmyg/t8t0teyw/)
+2. [jsfiddle示例](https://jsfiddle.net/cqmyg/t8t0teyw/1/)
 
 用法
 ---
@@ -54,12 +54,12 @@ bower install
 npm install
 ```
 
-######编译
+###编译
 ```
 grunt
 ```
 
-######运行测试
+###运行测试
 ```
 grunt test
 ```
