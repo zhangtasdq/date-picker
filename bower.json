@@ -1,0 +1,28 @@
+{
+  "name": "date-picker",
+  "description": "simple date picker",
+  "main": "app.js",
+  "authors": [
+    "zhang"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "date",
+    "picker"
+  ],
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.1",
+    "mocha": "^2.4.5",
+    "chai": "^3.5.0",
+    "jquery-dateFormat": "^1.0.2"
+  }
+}
