@@ -9,7 +9,6 @@
     "undef"           : true,
     "unused"          : true,
     "strict"          : true,
-    "maxlen"          : 100,
     "evil"            : false,
     "globalstrict"    : false,
     "loopfunc"        : false,
@@ -26,8 +25,10 @@
     "browser"         : true,
 
     "predef": [
+        "$",
         "describe",
         "expect",
-        "it"
+        "it",
+        "before"
     ]
 }
