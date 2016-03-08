@@ -1,7 +1,7 @@
 ;(function($) {
     "use strict";
 
-    $.fn.datepicker._translate = {
+    $.fn.datepicker.__translate = {
         week: {
             mon: "一",
             tue: "二",
