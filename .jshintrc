@@ -29,6 +29,10 @@
         "describe",
         "expect",
         "it",
-        "before"
+        "before",
+        "beforeEach",
+        "afterEach",
+        "after",
+        "sinon"
     ]
 }

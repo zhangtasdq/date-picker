@@ -7,12 +7,17 @@ describe("datepicker 测试", function() {
 
     describe("基础测试", function() {
         var inputElement = null,
-            datePickerElement = null;
+            datePickerElement = null,
+            datePicker = null;
 
         before(function() {
             inputElement = $("#date_picker_input");
-            inputElement.datepicker();
+            datePicker = inputElement.datepicker();
             datePickerElement = $(".date-picker-container");
+        });
+
+        after(function() {
+            datePicker.destroy();
         });
 
         it("应该在页面添加时间控件的元素", function() {
@@ -70,5 +75,120 @@ describe("datepicker 测试", function() {
             expect(currentMonth).to.equal($.format.date(currentDate, "yyyy-MM"));
         });
 
+        it("可以销毁时间控件", function() {
+            datePicker.destroy();
+            expect( $(".date-picker-container").length).to.equal(0);
+        });
+
+    });
+
+    describe("回调测试", function() {
+        var inputElement = null,
+            datePicker = null,
+            sinonFn = null;
+
+        beforeEach(function() {
+            inputElement = $("#date_picker_input");
+            sinonFn = sinon.spy();
+        });
+
+        afterEach(function() {
+            datePicker.destroy();
+        });
+
+        it("点击日期时,应该调用回调用函数", function() {
+            datePicker = inputElement.datepicker({
+                selectDate: sinonFn
+            });
+            var datePickerElement = $(".date-picker-container");
+            var clickElement = datePickerElement.find("tbody td:eq(12)");
+            clickElement.trigger("mousedown");
+            expect(sinonFn.calledOnce).to.equal(true);
+        });
+
+        it("点击切换月份时,应该调用回调用函数", function() {
+            datePicker = inputElement.datepicker({
+                changeMonth: sinonFn
+            });
+            var datePickerElement = $(".date-picker-container");
+            datePickerElement.find("thead tr [data-operate='next-month']").trigger("mousedown");
+            expect(sinonFn.calledOnce).to.equal(true);
+        });
+
+        it("显示时间控件前, 应该调用回调函数", function() {
+            datePicker = inputElement.datepicker({
+                beforeShow: sinonFn
+            });
+            datePicker.show();
+            expect(sinonFn.calledOnce).to.equal(true);
+        });
+
+        it("显示时间控件后, 应该调用回调函数", function() {
+            datePicker = inputElement.datepicker({
+                afterShow: sinonFn
+            });
+            datePicker.show();
+            expect(sinonFn.calledOnce).to.equal(true);
+        });
+
+        it("隐藏时间控件前, 应该调用回调函数", function() {
+            datePicker = inputElement.datepicker({
+                beforeHide: sinonFn
+            });
+            datePicker.show();
+            datePicker.hide();
+            expect(sinonFn.calledOnce).to.equal(true);
+        });
+
+        it("显示时间控件后, 应该调用回调函数", function() {
+            datePicker = inputElement.datepicker({
+                afterHide: sinonFn
+            });
+            datePicker.show();
+            datePicker.hide();
+            expect(sinonFn.calledOnce).to.equal(true);
+        });
+
+    });
+
+    describe("起始日期测试", function() {
+        var inputElement = null,
+            datePickerElement = null,
+            startDate = null,
+            datePicker = null,
+            sinonFn = sinon.spy();
+
+        before(function(done) {
+            inputElement = $("#date_picker_input");
+            startDate = new Date();
+            datePicker = inputElement.datepicker({
+                startDate: startDate,
+                selectOldDate: sinonFn,
+                changeMonth: function() {
+                    datePickerElement = $(".date-picker-container");
+                    datePickerElement.find("tbody td:eq(12)").trigger("mousedown");
+                },
+                selectDate: function() {
+                    done();
+                }
+            });
+            datePickerElement = $(".date-picker-container");
+            datePickerElement.find("thead tr [data-operate='previous-month']").trigger("mousedown");
+            done();
+        });
+
+        after(function() {
+            //datePicker.destroy();
+        });
+
+        it("早于起始日期的日期应该有类 'old'", function() {
+            datePickerElement = $(".date-picker-container");
+            var clickElement = datePickerElement.find("tbody td:eq(12)");
+            expect(clickElement.hasClass("old")).to.equal(true);
+        });
+
+        it("点击早于起始日期的日期应该调用回调用函数", function() {
+            expect(sinonFn.calledOnce).to.equal(true);
+        });
     });
 });

@@ -2,16 +2,16 @@ date-picker
 ===
 一个非常简单的日期选择插件
 
-效果
+效果图
 ---
 ![date-picker](./images/date_picker.png)
 
-例子
+示例
 ---
 1. 查看项目目录下的 `sample` 文件夹
 2. [jsfiddle示例](https://jsfiddle.net/cqmyg/t8t0teyw/1/)
 
-用法
+使用
 ---
 
 ###引入css
@@ -34,6 +34,265 @@ date-picker
 ```javascript
 $("#date_picker").datepicker();
 ```
+
+配置
+---
+
+####dateFormat
+
+类型: `String`
+
+默认值: "yyyy-MM-dd"
+
+输入框中时间的格式
+
+例子
+```javascript
+$("#date_picker").datepicker({
+    dateFormat: "yyyy-MM-dd"
+});
+```
+
+####monthFormat
+
+类型: `String`
+
+默认值: "yyyy-MM"
+
+时间控件头部显示日期的格式
+
+例子
+```javascript
+$("#date_picker").datepicker({
+    monthFormat: "yyyy-MM"
+});
+```
+
+####previousMonthIcon
+
+类型: `String`
+
+默认值: "图片的 Base64"
+
+时间控件头部左边箭头图片的地址
+
+例子
+```javascript
+$("#date_picker").datepicker({
+    previousMonthIcon: "./images/left_icon.png"
+});
+```
+
+####nextMonthIcon
+
+类型: `String`
+
+默认值: "图片的 Base64"
+
+时间控件头部右边箭头图片的地址
+
+例子
+```javascript
+$("#date_picker").datepicker({
+    nextMonthIcon: "./images/right_icon.png"
+});
+```
+
+
+####focusShow
+
+类型: `Bool`
+
+默认值: `true`
+
+当目标元素为输入框时,是否在输入框获得焦点时显示时间控件
+
+例子
+```javascript
+$("#date_picker").datepicker({
+    focusShow: false
+});
+```
+
+####position
+
+类型: `Object`
+
+默认值: 无
+
+时间控件绝对定位时的位置,是相对于 `body`进行定位,设置此参数后将忽略 `defaultRelativePosition` 的值
+
+例子
+```javascript
+$("#date_picker").datepicker({
+    position: {
+        left: 100,
+        top: 200
+    }
+});
+```
+
+####defaultRelativePosition
+
+类型: `Object`
+
+默认值: `{left: 0, top: 10}`
+
+时间控件相对于目标元素绝对定位时的偏移量
+
+例子
+```javascript
+$("#date_picker").datepicker({
+    defaultRelativePosition: {
+        left: 10,
+        top: 20
+    }
+});
+```
+
+####selectDate
+
+类型: `Function`
+
+默认值: `$.noop`
+
+######参数
+1. `selectDay` 选择的几号
+2. `currentDay` 原来是几号
+3. `currentDate` 当前日期
+
+点击一个日期后的回调函数
+
+例子
+```javascript
+$("#date_picker").datepicker({
+    selectDate: function() {
+        console.log("selectDate");
+    }
+});
+```
+
+####selectOldDate
+
+类型: `Function`
+
+默认值: `$.noop`
+
+参数: 同 `selectDate`
+
+当设置有初始日期时,点击早于初始日期的日期时的回调函数
+
+例子
+```javascript
+$("#date_picker").datepicker({
+    selectOldDate: function() {
+        console.log("selectOldDate");
+    }
+});
+```
+
+####changeMonth
+
+类型: `Function`
+
+默认值: `$.noop`
+
+######参数
+1. `currentDate` 改变后的日期
+2. `event` 事件对象
+3. `operate` 点击的操作,值为 `previous-month` 或 `next-month`
+
+点击箭头切换月份后的回调函数
+
+例子
+```javascript
+$("#date_picker").datepicker({
+    changeMonth: function() {
+        console.log("changeMonth");
+    }
+});
+```
+
+####beforeShow
+
+类型: `Function`
+
+默认值: `$.noop`
+
+参数: `无`
+
+显示日期控件前的回调函数
+
+例子
+```javascript
+$("#date_picker").datepicker({
+    beforeShow: function() {
+        console.log("beforeShow");
+    }
+});
+```
+
+####afterShow
+
+类型: `Function`
+
+默认值: `$.noop`
+
+参数: `无`
+
+显示日期控件后的回调函数
+
+例子
+```javascript
+$("#date_picker").datepicker({
+    afterShow: function() {
+        console.log("afterShow");
+    }
+});
+```
+
+####beforeHide
+
+类型: `Function`
+
+默认值: `$.noop`
+
+参数: `无`
+
+隐藏日期控件前的回调函数
+
+例子
+```javascript
+$("#date_picker").datepicker({
+    beforeHide: function() {
+        console.log("beforeHide");
+    }
+});
+```
+
+####afterHide
+
+类型: `Function`
+
+默认值: `$.noop`
+
+参数: `无`
+
+隐藏日期控件后的回调函数
+
+例子
+```javascript
+$("#date_picker").datepicker({
+    afterHide: function() {
+        console.log("afterHide");
+    }
+});
+```
+
+
+
+
+
 
 编译和测试
 ---
