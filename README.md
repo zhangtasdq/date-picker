@@ -9,7 +9,7 @@ date-picker
 示例
 ---
 1. 查看项目目录下的 `demo` 文件夹
-2. [jsfiddle示例](https://jsfiddle.net/t8t0teyw/2/)
+2. [jsfiddle示例](https://jsfiddle.net/t8t0teyw/3/)
 
 使用
 ---
