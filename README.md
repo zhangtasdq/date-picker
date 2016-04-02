@@ -8,8 +8,8 @@ date-picker
 
 示例
 ---
-1. 查看项目目录下的 `sample` 文件夹
-2. [jsfiddle示例](https://jsfiddle.net/cqmyg/t8t0teyw/1/)
+1. 查看项目目录下的 `demo` 文件夹
+2. [jsfiddle示例](https://jsfiddle.net/t8t0teyw/2/)
 
 使用
 ---
@@ -42,7 +42,7 @@ $("#date_picker").datepicker();
 
 类型: `String`
 
-默认值: "yyyy-MM-dd"
+默认值: "yyyy/MM/dd"
 
 输入框中时间的格式
 
@@ -57,7 +57,7 @@ $("#date_picker").datepicker({
 
 类型: `String`
 
-默认值: "yyyy-MM"
+默认值: "yyyy/MM"
 
 时间控件头部显示日期的格式
 
@@ -98,22 +98,6 @@ $("#date_picker").datepicker({
 });
 ```
 
-
-####focusShow
-
-类型: `Bool`
-
-默认值: `true`
-
-当目标元素为输入框时,是否在输入框获得焦点时显示时间控件
-
-例子
-```javascript
-$("#date_picker").datepicker({
-    focusShow: false
-});
-```
-
 ####position
 
 类型: `Object`
@@ -126,8 +110,8 @@ $("#date_picker").datepicker({
 ```javascript
 $("#date_picker").datepicker({
     position: {
-        left: 100,
-        top: 200
+        left: "100px",
+        top: "200px"
     }
 });
 ```
@@ -157,9 +141,8 @@ $("#date_picker").datepicker({
 默认值: `$.noop`
 
 ######参数
-1. `selectDay` 选择的几号
-2. `currentDay` 原来是几号
-3. `currentDate` 当前日期
+1. `currentDate` 选择后的日期
+2. `previousDate` 之前的日期
 
 点击一个日期后的回调函数
 
@@ -176,17 +159,19 @@ $("#date_picker").datepicker({
 
 类型: `Function`
 
-默认值: `$.noop`
+默认值: `function() { return true; }`
 
 参数: 同 `selectDate`
 
 当设置有初始日期时,点击早于初始日期的日期时的回调函数
+会在 selectDate 之前调用,如果返回值为 `false` 将不会用选择的日期更新控件, 为 `true` 时将会更新控件
 
 例子
 ```javascript
 $("#date_picker").datepicker({
     selectOldDate: function() {
         console.log("selectOldDate");
+        return true;
     }
 });
 ```
@@ -288,11 +273,6 @@ $("#date_picker").datepicker({
     }
 });
 ```
-
-
-
-
-
 
 编译和测试
 ---
