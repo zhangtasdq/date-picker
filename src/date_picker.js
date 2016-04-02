@@ -11,9 +11,8 @@
         constructor: DatePicker,
 
         defaultOptions: {
-            dateFormat: "yyyy-MM-dd",
-            monthFormat: "yyyy-MM",
-            focusShow: true,
+            dateFormat: "yyyy/MM/dd",
+            monthFormat: "yyyy/MM",
             defaultRelativePosition: {
                 left: 0,
                 top: 10
@@ -24,7 +23,7 @@
             afterShow: $.noop,
             beforeHide: $.noop,
             afterHide: $.noop,
-            selectOldDate: $.noop,
+            selectOldDate: function() { return true; },
             previousMonthIcon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMEAAAChCAYAAAB+ttvGAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AMHBzo5fwSzvwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAJ0SURBVHja7d3BDYAgEABBsCX6L4GatAF+fow72wEHk8CLOfSqtdb917XtvWdhD6djDEAZAAQA5AFAAEAeAAQA5AFAAEAeAAQA5AFAAEAeAAQA2H8IABAEAAgCAGQgAEBgBABAIAAgEAAQAAAABAAAAAEAAEAAAAAQAAAABAAAAAEAAEAAAAAQAAAABAAAAAEAAEAAAAAQAAAABAAAAAEAAEAAAAAQAAAABAAAAAEAAEAAAAAQAAAABAAAAAEAAEAAAAAQAAAABAAAAAEAAEAAAAAQAAAABAAAAAEAAEAAAAAQAAAABAAAAAEAAEAAAAAQAAAABAAAAAEAAEAAAAAQAAAABAAAAAEAAEAAAAAQACAIqgAEAQCCAABBAIAgAEAQACAIABAEAKiOAAClEQCgNAIAlEYAgNIIAFAaAQBKIwBAaQQAKI0AAKURAKA0AgBU7jICQSC5DnkTCIIBgiAAQRCAIAhAEAQgCAIQBAEIggAEQQCCIABBEIAgCEAQBCAIAhAEAQiCAARBAIIgAEEQgHDKZ94QgAACBCCAAAEIIEAAAggQgAACBCCAAAEIIEAAAggQgAACBCCAAAEIIEAAAggQgAACBCCAAAEIIEAAAggQgAACBCCAAAEIIEAAAggQgAACBCCAAAEIIEAAAggQgAACBCCAAAEIIEAAAggQgAACBCCAAAEIIEAAAggQgAACBCCAAAEIIEAAAggQgAACBCCAAAEIIEAAAggQgAACBCCAAAEIIEAAAggQgAACBCCAAAEIIEAAAggQgAACBCCAAAEIIEAAAggQgAACBCCAAAEIIEAAAggQgAACBCCAAAEIIHy4B/k/IVKSuxe2AAAAAElFTkSuQmCC",
             nextMonthIcon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMIAAAChCAYAAACVgWDFAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AMHBzsWzc6/pwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAJ3SURBVHja7d2xDYAwDADBhJW8/wiZCQokCiqIUoB9v0EsndzFvRUrIvaM7xpj9KbpSg4PBoEAg0CAQSDAIBBgEAgwCAQYYAABBhhAgAEGEGCAAQQYYAABBhhAgAEGEGCAAQQYYAABBhhAgAEGEGCAAQQYYAABBhhAgAEGEGCAAQQYYAABBhhAgAEGEGCAAQQYYAABBhhAgAEGEGCAAQQYYAABBhhAgAEGEGCAAQQYYAABBhhAgAEGEAQDCIIBBMEAgmAAQTCAIBhAEAyfwwACDDCAAAMMIMAAAwgwwAACDDCAAAMMIMAAAwgwwAACDDCAAAMMIMAAAwgwwAACDDCAAAMMIAiG9xCyDkx5W41hM1LZdiAIBhAEAwiCAQTBAIJgAEEwgCAYQBAMIAgGEAQDCILhAQYQBAMIggEEwQCCYABBMNwwgCAYQBAMJwYQJBAkEKTrNwwQVB4BCIIABEEAgiAAQRCAIAhAEAQgCAIQBAEIggAEQQCCIABBEIAgCEAQBCAIAhAEwUwOjicu8/3s1XeWQYCgPAIQIIAABAggAAECCECAAAIQIIAABAggAAECCECAAAIQIIAABAggAAECCECAAAIQIIAABAggAAECCECAAAIQIIAABAggAAECCECAAAIQIIAABAggAAECCECAAAIQIIAABAggAAECCECAAAIQIIAABAggAAECCECAAAIQIIAABAggAAECCECAAAIQIIAABAggAAECCECAAAIQIIAABAggAAECCECAAAIQIIAABAggAAECCECAAAIQIIAABAggAAECCECAAAIQIIAABAggAAECCECAAAIQIIAABAggAAECCH7ZAcy3Mn9kU+0iAAAAAElFTkSuQmCC"
         },
@@ -66,7 +65,7 @@
             this.__setInitialDate();
             this.__datePicker = $(this.template.wrapper);
             $("body").append(this.__datePicker);
-            this.render(this.__currentDate);
+            this.__render(this.__currentDate);
         },
 
         __setInitialDate: function() {
@@ -75,10 +74,11 @@
                 this.__initialDate = new Date(this.options.startDate);
             } else {
                 this.__currentDate = new Date();
+                this.__initialDate = new Date();
             }
         },
 
-        render: function(date) {
+        __render: function(date) {
             this.__datePicker.find("table").html(this.__buildViewStr(date));
             this.__bindEventHandler();
         },
@@ -104,14 +104,14 @@
             for(var i = 1; i < firstDay; i++) {
                 result.push({
                     day: "",
-                    isOlder: true
+                    type: "null"
                 });
             }
             do {
                 currentDate = tmpDate.getDate();
                 result.push({
                     day: currentDate,
-                    isOlder: this.__isOlder(tmpDate, this.__initialDate)
+                    type: this.__judgeDateType(tmpDate, this.__initialDate)
                 });
                 tmpDate.setDate(currentDate + 1);
             } while(tmpDate.getMonth() === currentMonth);
@@ -119,11 +119,9 @@
             return result;
         },
 
-        __isOlder: function(targetDate, compareDate) {
-            if (!compareDate) {
-                return false;
-            }
-            return (new Date(targetDate)) < (new Date(compareDate));
+        __judgeDateType: function(targetDate, compareDate) {
+            return targetDate < compareDate ? "previous" :
+                                              targetDate > compareDate ? "next" : "current";
         },
 
         __compileDateBody: function(dateArray) {
@@ -131,7 +129,7 @@
             for(var i = 1; i <= dateArray.length; i++) {
                 result = result + this.compileTemFn(this.template.dayItem, {
                     day: dateArray[i - 1].day,
-                    className: dateArray[i - 1].isOlder ? "old" : ""
+                    className: dateArray[i - 1].type
                 });
                 if (i % 7 === 0) {
                     result = result + "</tr>";
@@ -142,7 +140,7 @@
 
         __compileDateHead: function(date) {
             var headData = {
-                currentMonth: this.dateFormat(date, this.options.monthFormat),
+                currentMonth: this.__dateFormat(date, this.options.monthFormat),
                 previousMonthIcon: this.options.previousMonthIcon,
                 nextMonthIcon: this.options.nextMonthIcon
             };
@@ -150,7 +148,7 @@
             return this.compileTemFn(this.template.head, headData);
         },
 
-        dateFormat: function(date, fmt) {
+        __dateFormat: function(date, fmt) {
             var o = {
                 "M+": date.getMonth() + 1,
                 "d+": date.getDate(),
@@ -176,32 +174,16 @@
                 position = {
                     top: targetElementPosition.top +
                          this.__targetElement.height() +
-                         this.options.defaultRelativePosition.top,
-                    left: targetElementPosition.left + this.options.defaultRelativePosition.left
+                         this.options.defaultRelativePosition.top + "px",
+                    left: targetElementPosition.left + this.options.defaultRelativePosition.left + "px"
                 };
             }
-            this.__datePicker.css({
-                left: position.left + "px",
-                top: position.top + "px"
-            });
+            this.__datePicker.css(position);
         },
 
         __bindEventHandler: function() {
-            this.__bindFocusHandler();
             this.__bindClickDateHandler();
             this.__bindChangeMonthHandler();
-        },
-
-        __bindFocusHandler: function() {
-            var self = this;
-            if (self.__targetElement.is("input") && self.options.focusShow) {
-                self.__targetElement.on("focus", function() {
-                    self.show();
-                });
-                self.__targetElement.on("blur", function() {
-                    self.hide();
-                });
-            }
         },
 
         __bindClickDateHandler: function() {
@@ -210,18 +192,26 @@
             self.__datePicker.find("tbody").on("mousedown", function(event) {
                 event.preventDefault();
                 var target = $(event.target);
-                if (target.is("td")) {
-                    self.__datePicker.find("tbody td").removeClass("active");
-                    target.addClass("active");
-                    var selectDate = parseInt(target.text());
-                    self.options.selectDate(selectDate, self.__currentDate.getDate(), self.__currentDate);
-                    if (target.hasClass("old")) {
-                        self.options.selectOldDate(selectDate, self.__currentDate.getDate(), self.__currentDate);
+                if (target.is("td") && !target.hasClass("null")) {
+                    var selectDay = parseInt(target.text()),
+                        previousDate = new Date(self.__currentDate),
+                        selectDate = new Date(previousDate);
+
+                    selectDate.setDate(selectDay);
+
+                    if ((!target.hasClass("previous") || self.options.selectOldDate(previousDate, selectDate))) {
+                        changeBySelectDay(target, previousDate, selectDate);
                     }
-                    self.__currentDate.setDate(parseInt(target.text()));
-                    self.updateInputValue();
                 }
             });
+
+            function changeBySelectDay(target, previousDate, selectDate) {
+                self.__datePicker.find("tbody td").removeClass("active");
+                target.addClass("active");
+                self.__currentDate = new Date(selectDate);
+                self.options.selectDate(new Date(self.__currentDate), previousDate);
+                self.updateInputValue();
+            }
         },
 
         __bindChangeMonthHandler: function() {
@@ -230,6 +220,7 @@
             self.__datePicker.find("thead").on("mousedown", function(event) {
                 var target = $(event.target),
                     operate = target.attr("data-operate");
+
                 event.preventDefault();
                 if (operate) {
                     if (operate === "previous-month") {
@@ -237,7 +228,7 @@
                     } else if (operate === "next-month") {
                         self.__currentDate.setMonth(self.__currentDate.getMonth() +1);
                     }
-                    self.render(self.__currentDate);
+                    self.__render(self.__currentDate);
                     self.options.changeMonth(self.__currentDate, event, operate);
                 }
             });
@@ -257,7 +248,7 @@
         },
 
         updateInputValue: function() {
-            this.__targetElement.val(this.dateFormat(this.__currentDate, this.options.dateFormat));
+            this.__targetElement.val(this.__dateFormat(this.__currentDate, this.options.dateFormat));
         },
 
         destroy: function() {

@@ -14,6 +14,11 @@ describe("datepicker 测试", function() {
             inputElement = $("#date_picker_input");
             datePicker = inputElement.datepicker();
             datePickerElement = $(".date-picker-container");
+            inputElement.on("focus", function() {
+                datePicker.show();
+            }).on("blur", function() {
+                datePicker.hide();
+            });
         });
 
         after(function() {
@@ -22,17 +27,6 @@ describe("datepicker 测试", function() {
 
         it("应该在页面添加时间控件的元素", function() {
             expect(datePickerElement.length).to.equal(1);
-        });
-
-        it("当 input 获得焦点时,应该显示时间选择控件", function() {
-            inputElement.focus();
-            expect(datePickerElement.is(":visible")).to.equal(true);
-            expect(datePickerElement.hasClass("hide")).to.equal(false);
-        });
-
-        it("当 input 失去焦点时,应该隐藏时间选择控件", function() {
-            inputElement.blur();
-            expect(datePickerElement.hasClass("hide")).to.equal(true);
         });
 
         it("时间选择控件的位置应该与 input 对齐", function() {
@@ -51,15 +45,15 @@ describe("datepicker 测试", function() {
 
         it("点击日期时,应该在 input 中显示相应的日期", function() {
             var date = new Date(),
-                currentDay = date.getDate();
+                currentDay = date.getDay();
             // 获取当前日期下一天的 tr 元素并点击
-            var nextDayTr = $(datePickerElement.find("tbody td")[currentDay + 1]);
+            var nextDayTr = $(datePickerElement.find("tbody td")[currentDay]);
             nextDayTr.trigger("mousedown");
 
             var nextDate = new Date();
             nextDate.setDate(nextDate.getDate() + 1);
 
-            expect(inputElement.val()).to.equal($.format.date(nextDate, "yyyy-MM-dd"));
+            expect(inputElement.val()).to.equal($.format.date(nextDate, "yyyy/MM/dd"));
         });
 
         it("点击切换月份的箭头时,标题栏的日期应该相应改变", function() {
@@ -67,12 +61,12 @@ describe("datepicker 测试", function() {
             datePickerElement.find("thead tr [data-operate='next-month']").trigger("mousedown");
             currentDate.setMonth(currentDate.getMonth() +1);
             var currentMonth = datePickerElement.find("thead tr th#currentMonth").text();
-            expect(currentMonth).to.equal($.format.date(currentDate, "yyyy-MM"));
+            expect(currentMonth).to.equal($.format.date(currentDate, "yyyy/MM"));
 
             datePickerElement.find("thead tr [data-operate='previous-month']").trigger("mousedown");
             currentDate.setMonth(currentDate.getMonth() -1);
             currentMonth = datePickerElement.find("thead tr th#currentMonth").text();
-            expect(currentMonth).to.equal($.format.date(currentDate, "yyyy-MM"));
+            expect(currentMonth).to.equal($.format.date(currentDate, "yyyy/MM"));
         });
 
         it("可以销毁时间控件", function() {
@@ -178,13 +172,13 @@ describe("datepicker 测试", function() {
         });
 
         after(function() {
-            //datePicker.destroy();
+            datePicker.destroy();
         });
 
-        it("早于起始日期的日期应该有类 'old'", function() {
+        it("早于起始日期的日期应该有类 'previous'", function() {
             datePickerElement = $(".date-picker-container");
             var clickElement = datePickerElement.find("tbody td:eq(12)");
-            expect(clickElement.hasClass("old")).to.equal(true);
+            expect(clickElement.hasClass("previous")).to.equal(true);
         });
 
         it("点击早于起始日期的日期应该调用回调用函数", function() {
